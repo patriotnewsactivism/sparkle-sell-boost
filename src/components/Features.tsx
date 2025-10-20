@@ -1,7 +1,12 @@
-import { Zap, Shield, Globe, TrendingUp, Users, Gift } from "lucide-react";
+import { Zap, Shield, Globe, TrendingUp, Users, Gift, Rocket } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 const features = [
+  {
+    icon: Rocket,
+    title: "Start FREE Forever",
+    description: "Get started with 50 free conversations per month, forever. No credit card required, just sign up and start building.",
+  },
   {
     icon: Zap,
     title: "Lightning Fast Setup",

@@ -41,7 +41,7 @@ export const Hero = () => {
           {/* Subheading */}
           <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
             Create world-class AI chatbots for your business without coding. 
-            Deploy instantly and scale effortlessly.
+            <span className="font-semibold text-foreground"> Start FREE with 50 conversations.</span> Deploy instantly and scale effortlessly.
           </p>
 
           {/* CTA Buttons */}
@@ -59,15 +59,15 @@ export const Hero = () => {
           <div className="flex flex-wrap justify-center gap-8 pt-8 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              <span>Free tier - 50 conversations</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
               <span>No credit card required</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
               <span>Deploy in 60 seconds</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              <span>Scale to millions</span>
             </div>
           </div>
         </div>

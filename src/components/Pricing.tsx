@@ -2,50 +2,94 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Check, Tag } from "lucide-react";
+import { Check, Tag, Gift, TrendingUp, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const plans = [
   {
-    name: "Starter",
-    price: "$49",
-    description: "Perfect for small businesses and startups",
+    name: "Free",
+    price: "$0",
+    description: "Perfect for testing and small projects",
     features: [
+      "50 conversations/month",
       "1 AI Bot",
-      "1,000 conversations/month",
       "Basic analytics",
-      "Email support",
-      "Multi-channel deployment",
+      "Email support (72hr)",
+      "Knowledge base access",
+      "BuildMyBot branding on widget",
     ],
-    priceId: "price_starter", // Replace with actual Stripe price ID
+    priceId: "price_free",
+    badge: "FREE",
+    badgeColor: "bg-muted text-muted-foreground",
+  },
+  {
+    name: "Starter",
+    price: "$29",
+    description: "Great for small businesses getting started",
+    features: [
+      "500 conversations/month",
+      "2 AI Bots",
+      "Remove branding",
+      "Advanced analytics",
+      "Multi-channel deployment",
+      "Email support (48hr)",
+      "Custom bot avatar",
+      "Basic customization",
+    ],
+    priceId: "price_starter",
+  },
+  {
+    name: "Growth",
+    price: "$79",
+    description: "For growing businesses with higher volume",
+    features: [
+      "2,500 conversations/month",
+      "5 AI Bots",
+      "Everything in Starter",
+      "Priority email support (24hr)",
+      "API access & webhooks",
+      "Advanced customization",
+      "Lead capture forms",
+      "Custom responses library",
+    ],
+    priceId: "price_growth",
+    popular: true,
+    badge: "MOST POPULAR",
+    badgeColor: "gradient-accent text-accent-foreground",
   },
   {
     name: "Professional",
-    price: "$149",
-    description: "For growing businesses with higher volume",
+    price: "$179",
+    description: "Advanced features for scaling teams",
     features: [
-      "5 AI Bots",
       "10,000 conversations/month",
-      "Advanced analytics",
-      "Priority support",
-      "Custom branding",
-      "API access",
+      "15 AI Bots",
+      "Everything in Growth",
+      "Chat support",
+      "White-label options",
+      "Team collaboration (3 seats)",
+      "Advanced analytics & reporting",
+      "A/B testing",
+      "Handoff to human agents",
     ],
     priceId: "price_professional",
-    popular: true,
+    badge: "BEST VALUE",
+    badgeColor: "bg-primary text-primary-foreground",
   },
   {
     name: "Enterprise",
-    price: "$499",
+    price: "$399",
     description: "Unlimited power for large organizations",
     features: [
-      "Unlimited AI Bots",
       "Unlimited conversations",
-      "Enterprise analytics",
-      "Dedicated support",
-      "White-label solution",
-      "SLA guarantee",
-      "Custom integrations",
+      "Unlimited AI Bots",
+      "Everything in Professional",
+      "Dedicated account manager",
+      "Priority phone support",
+      "SLA guarantee (99.9% uptime)",
+      "Unlimited team seats",
+      "Custom AI training",
+      "On-premise deployment option",
     ],
     priceId: "price_enterprise",
   },
@@ -81,100 +125,207 @@ export const Pricing = () => {
 
   return (
     <section id="pricing" className="py-20 px-4">
-      <div className="container mx-auto max-w-6xl">
+      <div className="container mx-auto max-w-7xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Simple, Transparent Pricing
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Choose the plan that fits your needs. Cancel anytime.
+            Start free, scale as you grow. Cancel anytime, no questions asked.
           </p>
 
           {/* Discount Code Section */}
           <div className="max-w-md mx-auto mb-8">
-            <Card className="p-4 bg-accent/5 border-accent/20">
-              <div className="flex items-center gap-2 mb-2">
-                <Tag className="w-4 h-4 text-accent" />
-                <span className="text-sm font-medium">Have a discount code?</span>
+            <Card className="p-5 gradient-accent/10 border-accent shadow-elegant">
+              <div className="flex items-center gap-2 mb-3">
+                <Tag className="w-5 h-5 text-accent" />
+                <span className="font-semibold">Have a discount code?</span>
               </div>
               <div className="flex gap-2">
                 <Input
-                  placeholder="Enter discount code"
+                  placeholder="Enter code (e.g., LAUNCH50)"
                   value={discountCode}
                   onChange={(e) => setDiscountCode(e.target.value)}
-                  className="flex-1"
+                  className="flex-1 border-accent/30 focus:border-accent"
                 />
                 <Button
                   onClick={applyDiscountCode}
                   disabled={isApplyingCode || !discountCode.trim()}
-                  variant="outline"
+                  variant="default"
+                  className="px-6"
                 >
-                  Apply
+                  {isApplyingCode ? "..." : "Apply"}
                 </Button>
               </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                Save up to 50% on your first month
+              </p>
             </Card>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        {/* Pricing Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16">
           {plans.map((plan, index) => (
             <Card
               key={index}
-              className={`p-8 relative ${
+              className={`p-6 relative flex flex-col ${
                 plan.popular
-                  ? "border-accent shadow-glow scale-105"
-                  : "border-border"
+                  ? "border-accent shadow-glow md:scale-105 z-10"
+                  : plan.name === "Free"
+                  ? "border-muted bg-muted/20"
+                  : "border-border hover:border-accent/50 transition-smooth"
               }`}
             >
-              {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <span className="gradient-accent text-accent-foreground px-4 py-1 rounded-full text-sm font-semibold">
-                    Most Popular
+              {plan.badge && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                  <span className={`${plan.badgeColor} px-3 py-1 rounded-full text-xs font-bold shadow-elegant`}>
+                    {plan.badge}
                   </span>
                 </div>
               )}
 
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                <p className="text-muted-foreground text-sm mb-4">
+                <p className="text-muted-foreground text-xs mb-4 min-h-[2.5rem]">
                   {plan.description}
                 </p>
                 <div className="flex items-baseline justify-center gap-1">
-                  <span className="text-5xl font-bold">{plan.price}</span>
-                  <span className="text-muted-foreground">/month</span>
+                  <span className="text-4xl md:text-5xl font-bold">{plan.price}</span>
+                  <span className="text-muted-foreground text-sm">/mo</span>
                 </div>
               </div>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-2.5 mb-6 flex-grow">
                 {plan.features.map((feature, featureIndex) => (
                   <li key={featureIndex} className="flex items-start gap-2">
-                    <Check className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                    <span className="text-sm">{feature}</span>
+                    <Check className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+                    <span className="text-xs leading-tight">{feature}</span>
                   </li>
                 ))}
               </ul>
 
               <Button
                 className="w-full"
-                variant={plan.popular ? "hero" : "default"}
+                variant={plan.popular ? "hero" : plan.name === "Free" ? "outline" : "default"}
                 size="lg"
                 onClick={() => handleSubscribe(plan.priceId)}
               >
-                Get Started
+                {plan.name === "Free" ? "Start Free" : "Get Started"}
               </Button>
             </Card>
           ))}
         </div>
 
-        {/* Referral Program Highlight */}
-        <div className="mt-16 text-center">
-          <Card className="p-6 bg-muted/50 border-border max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold mb-2">🎁 Referral Program</h3>
-            <p className="text-muted-foreground">
-              Refer a friend and get <span className="font-semibold text-foreground">1 month free</span> when they subscribe.
-              Your friend gets 10% off their first month too!
-            </p>
+        {/* Reseller & Referral Programs */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
+          {/* Reseller Program */}
+          <Card className="p-8 gradient-hero text-primary-foreground relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="w-8 h-8" />
+                <h3 className="text-2xl font-bold">Earn 50% Recurring Commission</h3>
+              </div>
+              <p className="text-primary-foreground/90 mb-6 text-sm">
+                Become a reseller partner and earn 50% monthly commission on all your referrals, 
+                for as long as they stay subscribed. Build a passive income stream with BuildMyBot.
+              </p>
+              <ul className="space-y-2 mb-6 text-sm">
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" />
+                  <span>50% recurring monthly commission</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" />
+                  <span>Access to reseller dashboard</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" />
+                  <span>Marketing materials provided</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="w-4 h-4" />
+                  <span>No limits on earnings</span>
+                </li>
+              </ul>
+              <Button
+                variant="outline"
+                className="w-full bg-white text-primary hover:bg-white/90 border-white"
+                size="lg"
+                onClick={() => window.location.href = "mailto:partners@buildmybot.com"}
+              >
+                Become a Partner
+              </Button>
+            </div>
           </Card>
+
+          {/* Referral Program */}
+          <Card className="p-8 bg-accent/10 border-accent relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -translate-y-16 translate-x-16" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-4">
+                <Gift className="w-8 h-8 text-accent" />
+                <h3 className="text-2xl font-bold">Refer Friends, Get Rewarded</h3>
+              </div>
+              <p className="text-muted-foreground mb-6 text-sm">
+                Love BuildMyBot? Share it with your network and get rewarded. 
+                It's a win-win for everyone.
+              </p>
+              <div className="space-y-4 mb-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-sm flex-shrink-0">
+                    1
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm">You Get 1 Month FREE</p>
+                    <p className="text-xs text-muted-foreground">For each friend who subscribes</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold text-sm flex-shrink-0">
+                    2
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm">Your Friend Gets 10% Off</p>
+                    <p className="text-xs text-muted-foreground">On their first month</p>
+                  </div>
+                </div>
+              </div>
+              <Button
+                variant="default"
+                className="w-full"
+                size="lg"
+                onClick={() => {
+                  toast({
+                    title: "Referral Link Coming Soon!",
+                    description: "We're setting up your personal referral dashboard.",
+                  });
+                }}
+              >
+                <Sparkles className="w-4 h-4" />
+                Get My Referral Link
+              </Button>
+            </div>
+          </Card>
+        </div>
+
+        {/* Trust Signals */}
+        <div className="text-center">
+          <div className="inline-flex flex-wrap justify-center gap-6 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-accent" />
+              <span>30-day money-back guarantee</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-accent" />
+              <span>Cancel anytime, no questions asked</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-accent" />
+              <span>Enterprise-grade security</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
